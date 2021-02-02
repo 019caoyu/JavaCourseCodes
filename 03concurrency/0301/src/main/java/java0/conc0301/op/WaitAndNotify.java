@@ -37,7 +37,10 @@ public class WaitAndNotify {
 class MethodClass {
     // 定义生产最大量
     private final int MAX_COUNT = 20;
-    
+
+    /**
+     * 单线程创建 product, 不需要加锁
+     */
     int productCount = 0;
     
     public synchronized void product() throws InterruptedException {

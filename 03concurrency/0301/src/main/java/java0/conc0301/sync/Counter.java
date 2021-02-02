@@ -1,5 +1,8 @@
 package java0.conc0301.sync;
 
+/**
+ * volatile 只能保证有序性和可见性，不能保证原子性
+ */
 public class Counter {
     
     public final static int A=10;
