@@ -17,7 +17,7 @@ public class AsyncResultImpl1 implements AsyncResult {
         }).start();
 
         while (!hadComputed){
-            Thread.yield();// 防止一直占用线程
+            Thread.yield();// 防止main线程一直占用CPU资源
         }
         return result;
     }
