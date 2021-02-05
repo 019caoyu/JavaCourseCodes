@@ -1,29 +1,34 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * 应用Semaphore机制
- */
 public class AsyncResultImpl5 implements AsyncResult {
     private volatile int result = -1;
 
     @Override
     public int getResult() throws Exception {
-        final Semaphore semaphore = new Semaphore(2);
-        semaphore.acquire(1);
+        final ReentrantLock lock = new ReentrantLock(false);
+        Condition hadCompute = lock.newCondition();
         new Thread(new Runnable() {
             @Override
             public void run() {
+                lock.lock();
                 try {
                     result = sum();
+                    hadCompute.signalAll();
                 }finally {
-                    semaphore.release(1);
+                    lock.unlock();
                 }
             }
         }).start();
 
-        semaphore.acquire(2);
-        return result;
+        lock.lock();
+        try {
+            hadCompute.await();
+            return result;
+        }finally {
+            lock.unlock();
+        }
     }
 }

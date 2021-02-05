@@ -1,20 +1,29 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class AsyncResultImpl2 implements AsyncResult{
+/**
+ * 应用CAS机制
+ */
+public class AsyncResultImpl2 implements AsyncResult {
+
     private volatile int result = -1;
+
+    private AtomicInteger tag = new AtomicInteger(1);
+
     @Override
     public int getResult() throws Exception {
-        CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 result = sum();
-                countDownLatch.countDown();
+                tag.getAndDecrement();
             }
         }).start();
-        countDownLatch.await();
+
+        while (tag.get() > 0){
+            Thread.yield();
+        }
         return result;
     }
 }

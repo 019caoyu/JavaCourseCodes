@@ -1,25 +1,24 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 /**
- * 应用Future机制
+ * 应用 volatile 机制
  */
-public class AsyncResultImpl1 implements AsyncResult{
+public class AsyncResultImpl1 implements AsyncResult {
+    private volatile int result = -1;
+    private volatile boolean hadComputed = false;
     @Override
-    public int getResult() throws Exception{
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        Future<Integer> future = executorService.submit(new Callable<Integer>() {
+    public int getResult() throws Exception {
+        new Thread(new Runnable() {
             @Override
-            public Integer call() {
-                return sum();
+            public void run() {
+                result = sum();
+                hadComputed = true;
             }
-        });
-        // 注意关闭线程池，否则main线程不会结束，会一直等待，直到线程池被关闭。
-        executorService.shutdown();
-        return future.get();
+        }).start();
+
+        while (!hadComputed){
+            Thread.yield();// 防止一直占用线程
+        }
+        return result;
     }
 }

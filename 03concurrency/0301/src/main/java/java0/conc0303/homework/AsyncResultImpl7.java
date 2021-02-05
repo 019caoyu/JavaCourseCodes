@@ -1,29 +1,27 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.CyclicBarrier;
 
 /**
- * 应用CAS机制
+ * 应用 CyclicBarrier 机制
  */
 public class AsyncResultImpl7 implements AsyncResult {
-
     private volatile int result = -1;
-
-    private AtomicInteger tag = new AtomicInteger(1);
-
     @Override
     public int getResult() throws Exception {
+        final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                result = sum();
-                tag.getAndDecrement();
+                try {
+                    result = sum();
+                    cyclicBarrier.await();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
-
-        while (tag.get() > 0){
-            Thread.yield();
-        }
+        cyclicBarrier.await();
         return result;
     }
 }

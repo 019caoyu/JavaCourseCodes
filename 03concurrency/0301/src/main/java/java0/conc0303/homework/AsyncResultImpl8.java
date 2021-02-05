@@ -1,24 +1,29 @@
 package java0.conc0303.homework;
 
+import java.util.concurrent.Semaphore;
+
 /**
- * 应用 volatile 机制
+ * 应用Semaphore机制
  */
 public class AsyncResultImpl8 implements AsyncResult {
     private volatile int result = -1;
-    private volatile boolean hadComputed = false;
+
     @Override
     public int getResult() throws Exception {
+        final Semaphore semaphore = new Semaphore(2);
+        semaphore.acquire(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                result = sum();
-                hadComputed = true;
+                try {
+                    result = sum();
+                }finally {
+                    semaphore.release(1);
+                }
             }
         }).start();
 
-        while (!hadComputed){
-            Thread.yield();// 防止一直占用线程
-        }
+        semaphore.acquire(2);
         return result;
     }
 }

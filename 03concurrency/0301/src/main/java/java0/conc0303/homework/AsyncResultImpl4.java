@@ -1,22 +1,27 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 /**
- * 应用阻塞队列
+ * 应用传统的synchronized锁通知机制
  */
 public class AsyncResultImpl4 implements AsyncResult {
-    private BlockingQueue<Integer> blockingQueue = new ArrayBlockingQueue<>(1);
+    private volatile int result = -1;
+    private final Object getResultLock = new Object();
+
     @Override
     public int getResult() throws Exception {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                blockingQueue.offer(sum());
+                synchronized (getResultLock) {
+                    result = sum();
+                    getResultLock.notifyAll();
+                }
             }
         }).start();
 
-        return blockingQueue.take();
+        synchronized (getResultLock) {
+            getResultLock.wait();
+            return result;
+        }
     }
 }

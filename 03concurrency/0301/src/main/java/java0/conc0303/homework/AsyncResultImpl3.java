@@ -1,27 +1,21 @@
 package java0.conc0303.homework;
 
 /**
- * 应用传统的synchronized锁通知机制
+ * 应用join 机制
  */
 public class AsyncResultImpl3 implements AsyncResult {
     private volatile int result = -1;
-    private final Object getResultLock = new Object();
-
     @Override
     public int getResult() throws Exception {
-        new Thread(new Runnable() {
+        Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                synchronized (getResultLock) {
-                    result = sum();
-                    getResultLock.notifyAll();
-                }
+                result = sum();
             }
-        }).start();
+        });
+        t1.start();
+        t1.join();
 
-        synchronized (getResultLock) {
-            getResultLock.wait();
-            return result;
-        }
+        return result;
     }
 }

@@ -1,27 +1,23 @@
 package java0.conc0303.homework;
 
-import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.CountDownLatch;
 
 /**
- * 应用 CyclicBarrier 机制
+ * 应用CountDownLatch机制
  */
-public class AsyncResultImpl6 implements AsyncResult {
+public class AsyncResultImpl6 implements AsyncResult{
     private volatile int result = -1;
     @Override
     public int getResult() throws Exception {
-        final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    result = sum();
-                    cyclicBarrier.await();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                result = sum();
+                countDownLatch.countDown();
             }
         }).start();
-        cyclicBarrier.await();
+        countDownLatch.await();
         return result;
     }
 }
