@@ -1,5 +1,8 @@
 package java0.conc0303.threadlocal;
 
+/**
+ * Thread level variable: ThreadLocal
+ */
 public class ThreadLocalDemo {
     
     private static ThreadLocal<Integer> seqNum = new ThreadLocal<Integer>() {

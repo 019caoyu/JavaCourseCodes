@@ -1,6 +1,14 @@
 
 package java0.conc0302.lock;
 
+/**
+ * 总结：
+ * 死锁场景：
+ * 获取多把锁的顺序和释放多把锁的顺序不一致，导致死锁
+ * 产生死锁的必要条件：
+ * 1. 已经获取锁，尝试获取其他锁
+ * 2. 获取锁过程中不可中断或超时
+ */
 public class Count3 {
 
     private byte[] lock1 = new byte[1];

@@ -1,6 +1,10 @@
 
 package java0.conc0301.sync;
 
+/**
+ * 总结：
+ * 两个Java Thread 对应两个操作系统线程，同时同享一个java task 对象实例
+ */
 public class Thread2 {
 
     public void m4t1() {

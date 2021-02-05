@@ -6,11 +6,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+/**
+ *
+ */
 public class CopyOnWriteArrayListDemo1 {
     private static final int THREAD_POOL_MAX_NUM = 10;
-    private List<String> mList = new ArrayList<String>();  // ArrayList 无法运行
-    //private List<String> mList = new CopyOnWriteArrayList<>();
+    //private List<String> mList = new ArrayList<String>();  // ArrayList 无法运行
+    private List<String> mList = new CopyOnWriteArrayList<>();
     
     public static void main(String args[]) {
         new CopyOnWriteArrayListDemo1().start();
@@ -43,7 +45,7 @@ public class CopyOnWriteArrayListDemo1 {
         public void run() {
             if (this.mList != null) {
                 for (String str : this.mList) {
-                    System.out.println(Thread.currentThread().getName() + " : " + str);
+                    System.out.println(Thread.currentThread().getName() + " read data: " + str);
                 }
             }
         }
@@ -62,6 +64,7 @@ public class CopyOnWriteArrayListDemo1 {
         public void run() {
             if (this.mList != null) {
                 //this.mList.remove(this.mIndex);
+                System.out.println(Thread.currentThread().getName() + " write data:"+mIndex);
                 this.mList.add("...... add " + mIndex + " ......");
             }
         }

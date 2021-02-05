@@ -9,11 +9,15 @@ public class ThreadMain2 {
             new Thread(threadB, "线程名称：（" + i + "）").start();
         }
 
+        Thread.currentThread().getThreadGroup().list();
+
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("线程组成员：");
 
         //返回对当前正在执行的线程对象的引用
         Thread threadMain = Thread.currentThread();

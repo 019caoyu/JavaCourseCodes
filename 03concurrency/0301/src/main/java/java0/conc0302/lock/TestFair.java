@@ -3,6 +3,10 @@ package java0.conc0302.lock;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 总结：非公平锁是公平锁效率的100多倍
+ * 等待所有累加线程都结束，可以通过记录尾启动业务线程前的线程总数。
+ */
 public class TestFair {
     public static volatile int race=0;
     public static ReentrantLock lock = new ReentrantLock(true); // 改成false会好100倍
@@ -16,7 +20,7 @@ public class TestFair {
         int count = Thread.activeCount();
         long now = System.currentTimeMillis();
         System.out.println(count);
-        AtomicReference<Thread> sign =new AtomicReference<>();
+        //AtomicReference<Thread> sign =new AtomicReference<>();
         Thread[]threads=new Thread[THREADS_COUNT];  //定义20个线程
         for(int i=0;i<THREADS_COUNT;i++){
             threads[i]=new Thread(new Runnable(){

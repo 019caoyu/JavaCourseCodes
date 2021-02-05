@@ -2,6 +2,9 @@ package java0.conc0303.tool;
 
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * CountDownLatch 各个线程相对独立影响CountDownLatch 状态，最后在主线程上汇聚
+ */
 public class CountDownLatchDemo {
     public static void main(String[] args) throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(5);
@@ -22,12 +25,12 @@ public class CountDownLatchDemo {
         }
         @Override
         public void run() {
-            synchronized (this){
+            //synchronized (this){
                 System.out.println("id:"+id+","+Thread.currentThread().getName());
                 //latch.countDown();
                 System.out.println("线程组任务"+id+"结束，其他任务继续");
                 latch.countDown();
-            }
+            //}
         }
     }
 }

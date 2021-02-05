@@ -1,5 +1,9 @@
 package java0.conc0301;
 
+/**
+ * Thread.isInterrupted() 不会重置 Interrupted 状态
+ * Thread.interrupted() 重置 Interrupted 状态
+ */
 public class Runner2 implements Runnable {
 
     @Override

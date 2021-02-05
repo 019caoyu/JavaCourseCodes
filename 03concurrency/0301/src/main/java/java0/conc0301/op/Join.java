@@ -2,6 +2,12 @@ package java0.conc0301.op;
 
 /**
  * 总结：线程A结束的时候，JVM内部会发送通知 notifyAll 给该线程对象A上的等待线程，唤醒在线程对象A上等待的线程
+ * 其中this 代表线程的执行的task对象。
+ * JAVA线程可以看作由两部分组成，
+ *  1. Java Task 对象，由JVM回调执行线程中的任务，即run方法的对象实体。
+ *  2. 操作系统的线程，一个Java 线程会一对一一个操作系统线程，
+ *  而Thread 中的 this对象代表Java Task 对象实体，
+ *  Thread.current()返回的线程代表的是操作系统线程
  */
 public class Join {
     

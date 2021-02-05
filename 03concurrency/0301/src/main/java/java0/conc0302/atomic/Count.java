@@ -1,7 +1,7 @@
 
 package java0.conc0302.atomic;
 
-public class Count {
+public class Count implements CountInf{
 
     private int num = 0;
 

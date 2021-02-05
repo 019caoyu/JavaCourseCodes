@@ -18,7 +18,7 @@ public class ConcurrentHashMapDemo {
             @Override
             public void run() {
                 AtomicInteger oldValue;
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 50; i++) {
                     oldValue = count.get("a");
                     if (null == oldValue) {
                         AtomicInteger zeroValue = new AtomicInteger(0);

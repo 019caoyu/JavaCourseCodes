@@ -14,7 +14,7 @@ public class Thread3 {
             }
         }
 
-        private void m4t2() {
+        private  synchronized void  m4t2() {
             int i = 5;
             while (i-- > 0) {
                 System.out.println(Thread.currentThread().getName() + " : Inner.m4t2()=" + i);

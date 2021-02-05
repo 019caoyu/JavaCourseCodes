@@ -8,6 +8,7 @@ public class FutureDemo1 {
         ExecutorService executor = Executors.newCachedThreadPool();
         Future<Integer> result = executor.submit(new Callable<Integer>() {
             public Integer call() throws Exception {
+                Thread.sleep(1000);
                 return new Random().nextInt();
             }
         });

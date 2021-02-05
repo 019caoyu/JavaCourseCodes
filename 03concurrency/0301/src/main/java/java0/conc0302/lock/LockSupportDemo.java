@@ -2,6 +2,15 @@ package java0.conc0302.lock;
 
 import java.util.concurrent.locks.LockSupport;
 
+/**
+ * 总结：LockSupport.park(t1) 休眠本线程t1后，并不释放锁信息，或者可以理解为与锁信息无关，
+ * LockSupport.park(t1) 仅仅是休眠线程t1。
+ *
+ * 唤醒被LockSupport.park()的线程,可以在其他线程中通过两种方式唤醒：
+ * 1. LockSupport.unpark(t1);
+ * 2. t1.interrupt()
+ *
+ */
 public class LockSupportDemo {
     
     public static Object u = new Object();

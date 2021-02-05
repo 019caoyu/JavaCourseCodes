@@ -2,6 +2,11 @@ package java0.conc0303.tool;
 
 import java.util.concurrent.CyclicBarrier;
 
+/**
+ * CyclicBarrier 线程之间不相关独立，随着线程影响CyclicBarrier的状态，线程间状态相互影响，
+ * 当线程内部到达cyc.await() 进行阻塞，直到所有线程都达到cyc.await()处，内部线程进行执行，
+ * 最后到达cyc.await()的线程，还会调用回调函数的run方法，进行回调处理。
+ */
 public class CyclicBarrierDemo {
     public static void main(String[] args) throws InterruptedException {
         CyclicBarrier cyclicBarrier = new CyclicBarrier(5, new Runnable() {
@@ -36,16 +41,16 @@ public class CyclicBarrierDemo {
         }
         @Override
         public void run() {
-            synchronized (this){
+            //synchronized (this){
                 System.out.println("id:"+id+","+Thread.currentThread().getName());
                 try {
-                    cyc.await();
+                    ///cyc.await();
                     System.out.println("线程组任务" + id + "结束，其他任务继续");
-                    //cyc.await();   // 注意跟CountDownLatch不同，这里在子线程await
+                    cyc.await();   // 注意跟CountDownLatch不同，这里在子线程await
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            //}
         }
     }
 }

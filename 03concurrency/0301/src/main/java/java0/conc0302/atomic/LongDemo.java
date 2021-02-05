@@ -3,6 +3,9 @@ package java0.conc0302.atomic;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAdder;
 
+/**
+ *
+ */
 public class LongDemo {
     
     public static void main(String[] args) {

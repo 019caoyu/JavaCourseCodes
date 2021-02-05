@@ -28,6 +28,7 @@ public class NewScheduledThreadExecutorDemo {
             // 10s后执行
             executorService.schedule(runnable, 10, TimeUnit.SECONDS);
         }
+
         executorService.shutdown();
         System.out.println("Main Thread End!");
 

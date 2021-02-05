@@ -1,12 +1,10 @@
-
 package java0.conc0302.lock;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ReentrantReadWriteLockDemo2 {
-
+public class ReentrantReadWriteLockDemo3 {
     private final Map<String, Object> map = new HashMap<>();
 
     private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
@@ -26,12 +24,17 @@ public class ReentrantReadWriteLockDemo2 {
                     if (value == null) {
                         value = "aaaa";
                     }
+                    /**
+                     * 锁降级，可以使本线程一直占有锁，
+                     * 如果不使用锁降级，需要释放写锁，再重新获取读锁，在这个过程中可能长时间无法获取读锁
+                     * 锁降级则可以直接获取读锁，防止其他线程竞争读资源
+                     */
+                    System.out.println("3.设置数据成功，写锁降级降为读锁");
+                    rwLock.readLock().lock();
                 } finally {
-                    System.out.println("3.释放写锁");
+                    System.out.println("4.释放写锁");
                     rwLock.writeLock().unlock();
                 }
-                System.out.println("4.开启读锁");
-                rwLock.readLock().lock();
             }
         } finally {
             System.out.println("5.释放读锁");
@@ -41,8 +44,7 @@ public class ReentrantReadWriteLockDemo2 {
     }
 
     public static void main(String[] args) {
-        ReentrantReadWriteLockDemo2 demo2 = new ReentrantReadWriteLockDemo2();
-        demo2.readWrite("bingfabiancheng");
+        ReentrantReadWriteLockDemo3 demo3 = new ReentrantReadWriteLockDemo3();
+        demo3.readWrite("bingfabiancheng");
     }
-
 }

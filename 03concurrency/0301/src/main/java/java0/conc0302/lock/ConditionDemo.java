@@ -42,4 +42,39 @@ class ConditionDemo {
             lock.unlock();
         }
     }
+
+    public static void main(String[] args){
+        ConditionDemo test = new ConditionDemo();
+
+        Thread putThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for(int i=0;i<1000;i++){
+                        try {
+                            test.put(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        putThread.setName("putThread");
+        putThread.start();
+
+        Thread takeThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i=0;i<1000;i++){
+                    try {
+                        test.take();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        takeThread.setName("takeThread");
+        takeThread.start();
+
+    }
 }
